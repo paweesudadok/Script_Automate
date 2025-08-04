@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "67309467788",
+    "project_id": "test-136cd",
+    "storage_bucket": "test-136cd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67309467788:android:93c334ef18ff9aca6ce3a9",
+        "android_client_info": {
+          "package_name": "avjindersinghsekhon.minimaltodo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPalsFo-USmRQvFUQKMOxNgGP1F8-W_k0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67309467788:android:a30ff47d7c03eff16ce3a9",
+        "android_client_info": {
+          "package_name": "com.avjindersekhon.minimaltodo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPalsFo-USmRQvFUQKMOxNgGP1F8-W_k0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
