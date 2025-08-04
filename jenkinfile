@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+
+    environment {
+        // กำหนด Environment variables ที่จำเป็น
+        // ตัวอย่าง: PATH สำหรับ Android SDK และ Appium
+        ANDROID_HOME = '/usr/local/share/android-sdk'
+        PATH = "${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/emulator:${PATH}"
+
+        // กำหนด Appium Server URL
+        APPIUM_SERVER_URL = "http://127.0.0.1:4723/wd/hub"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // โคลนโปรเจกต์ของคุณจาก Git
+                git branch: 'main', url: 'https://github.com/paweesudadok/Script_Automate.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // ติดตั้ง Python dependencies ที่จำเป็น
+                sh 'pip install robotframework robotframework-appiumlibrary'
+                // อาจจะมี dependencies อื่นๆ เพิ่มเติม
+                // sh 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Start Appium Server and Emulator') {
+            steps {
+                // รัน Appium Server ในพื้นหลัง
+                sh 'appium > appium.log &'
+                // รอให้ Appium Server พร้อมทำงาน
+                sh 'sleep 10'
+
+                // รัน Android Emulator
+                sh 'emulator -avd MyEmulatorName -no-audio -no-window &'
+                // รอให้ Emulator บูทขึ้นมา
+                sh 'sleep 30'
+            }
+        }
+
+        stage('Run Robot Framework Tests') {
+            steps {
+                // รันไฟล์ Robot Framework ของคุณ
+                // สมมติว่ามีไฟล์ชื่อ LoginTest.robot อยู่ในโฟลเดอร์ root
+                sh 'robot LoginTest.robot'
+            }
+        }
+        
+        stage('Generate Reports') {
+            steps {
+                // สร้างรายงานและเก็บไว้
+                // Jenkins จะเก็บไฟล์ log.html, report.html, และ output.xml ไว้ให้
+                // แต่คุณสามารถเก็บไฟล์อื่นๆ เพิ่มเติมได้ด้วย
+                archiveArtifacts artifacts: 'output.xml, log.html, report.html'
+            }
+        }
+    }
+}
