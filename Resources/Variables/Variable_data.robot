@@ -17,3 +17,7 @@ ${EXPECTED_EMAIL}    rachel.howell@reqres.in
 ${EXPECTED_FIRST_NAME}    Rachel
 ${EXPECTED_LAST_NAME}     Howell
 ${EXPECTED_AVATAR}        https://reqres.in/img/faces/12-image.jpg
+${status_code_success}    200
+${API_KEY_HEADER_NAME}    x-api-key
+${API_KEY_HEADER_VALUE}    reqres-free-v1
+${status_code_notfound}    404

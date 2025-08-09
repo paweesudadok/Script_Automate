@@ -89,13 +89,16 @@ TC03_001 Get user profile success
      ...    ‘Last Name’ == Howell
      ...    ‘Avatar’ ==https://reqres.in/img/faces/12-image.jpg
      ...    
+    ${header}    Create Dictionary    ${API_KEY_HEADER_NAME}=${API_KEY_HEADER_VALUE}  
     Create Session  ProfileAPI    ${Endpoint}
-    ${send_Request}    GET      ProfileAPI     ${Endpoint}/api/users/12    expected_status=200
-    #Should Be Equal As Strings    ${response.status_code}    200
-
-    ${json}=    To Json    ${response.content}
+    ${send_Request}    GET On Session      ProfileAPI     ${Endpoint}/api/users/12   headers=${header}     expected_status=200
+    log  ${send_Request}
+    Should Be Equal As Strings    ${send_Request.status_code}    ${status_code_success}
+    
+    ${json}=    To Json    ${send_Request.content}
+    log    ${json}
     ${data}=    Get From Dictionary    ${json}    data
-
+    ${EXPECTED_ID}    Convert To Integer    ${EXPECTED_ID}
     Should Be Equal    ${data['id']}           ${EXPECTED_ID}
     Should Be Equal    ${data['email']}        ${EXPECTED_EMAIL}
     Should Be Equal    ${data['first_name']}   ${EXPECTED_FIRST_NAME}
@@ -111,9 +114,8 @@ TC03_002 Get user profile but user not found
      ...    Expected Result
      ...    1. Verify response status code should be ‘404’
      ...    2.  Response body should be '{}'
+    ${header}    Create Dictionary    ${API_KEY_HEADER_NAME}=${API_KEY_HEADER_VALUE}  
     Create Session  ProfileAPI    ${Endpoint}
-    ${send_Request}    GET      ProfileAPI     /api/users/1234    expected_status=404
-    #Should Be Equal As Strings    ${response.status_code}    200
-
-    ${json}=    To Json    ${response.content}
-    ${data}=    Get From Dictionary    ${json}    data
+    ${send_Request}    GET On Session      ProfileAPI     /api/users/1234    headers=${header}    expected_status=404
+    Should Be Equal As Strings    ${send_Request.status_code}    ${status_code_notfound}
+    log    ${send_Request} 
